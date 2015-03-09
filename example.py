@@ -11,6 +11,6 @@ l = esxlexer(input)
 p = esxparser(l)
 
 resultarray = p.S()
-print resultarray['name']
-print resultarray['files']['vmPathName']
+print resultarray[0]['name']
+print resultarray[0]['files']['vmPathName']
 

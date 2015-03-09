@@ -3,8 +3,10 @@
 
 
 """ 
-gammar:
-	S -> dataset eof
+grammar:
+	S -> datasets eof
+	datasets -> dataset datasets
+	datasets -> epsilon
 	dataset -> ( ident ) content
 	content -> [ q ] 
 	content ->  { data } 
@@ -41,9 +43,19 @@ class esxparser(object):
 		return self.nxtToken
 	
 	def S(self):
-		r = self.dataset()
+		r = self.datasets()
 		self.isType(self.token(), EOFToken)
 		return r 
+
+	def datasets(self):
+		resultList = []
+ 
+		resultList.append(self.dataset())
+	
+		if isinstance(self.nxtToken, OpenBracketToken):
+			resultList.extend(self.datasets())
+
+		return resultList
 
 	def dataset(self):
 		result = {}
@@ -55,7 +67,7 @@ class esxparser(object):
 
 		self.content(result)
 		return result
-
+		
 	def content(self, result): 
 	
 		t = self.nextToken()
