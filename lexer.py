@@ -118,7 +118,19 @@ class esxlexer(object):
 				char = self.text[self.index]
 				self.index += 1
 			
-			return StringToken((val))
+			return StringToken(val)
+
+		if char == '\'':
+			# value 
+			val = ''
+			char = self.text[self.index]
+			self.index += 1
+			while char != '\'':
+				val += char
+				char = self.text[self.index]
+				self.index += 1
+			
+			return StringToken(val)
 
 		if char.isalpha() or char.isdigit() or char == '-' :
 			# identifier
@@ -132,7 +144,6 @@ class esxlexer(object):
 			
 			self.index -= 1
 			return IdentifierToken(ident)
-
 
 
 		return Token()
