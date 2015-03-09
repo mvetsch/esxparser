@@ -144,23 +144,28 @@ class esxparser(object):
 		
 	
 
-def printr(arr, level=0): 
+def printr(arr, level=0):
+	if isinstance(arr, list):
+		index = 0
+		for map in arr:
+			print tab(level)  + str(index) + ' =' 
+			printr(map, level+1)
+			index += 1
+		return
+
 	for k, v in arr.iteritems():
 		#print v.__class__.__name__  str(len(v))
 		if isinstance(v, list):
 			print tab(level) + str(k) + ' : ' 
 			for i in range(0, len(v)):
 				print tab(level) + str(i) + ' = ' 	
-				self.printr(v[i], level+1)
+				printr(v[i], level+1)
 		elif isinstance(v, dict):
 			print tab(level) + str(k) + " : " 	
-			self.printr(v, level+1)
+			printr(v, level+1)
 		else: 
 			print tab(level) + str(k) + " : " + str(v)
 
 def tab(n):
-	val =''
-	for a in range(0,n):
-		val+= '\t'
-	return val
+	return '\t' * n
 
